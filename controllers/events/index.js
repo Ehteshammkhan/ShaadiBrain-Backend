@@ -1,0 +1,1 @@
+export { createEvent, getEventsByWedding } from "./event.controller.js";
