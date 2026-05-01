@@ -24,7 +24,34 @@ export const getDashboard = asyncHandler(async (req, res) => {
     ],
   });
 
+  // ✅ 🔥 Calculate budget summary
+  let totalBudget = 0;
+  let totalSpent = 0;
+
+  events.forEach((event) => {
+    totalBudget += event.budget || 0;
+
+    totalSpent += (event.Expenses || []).reduce(
+      (sum, exp) => sum + (exp.amount || 0),
+      0
+    );
+  });
+
+  const summary = {
+    totalBudget,
+    totalSpent,
+    remaining: totalBudget - totalSpent,
+  };
+
+  // ✅ RETURN UPDATED STRUCTURE
   return res.json(
-    new ApiResponse(200, events, "Dashboard data fetched successfully")
+    new ApiResponse(
+      200,
+      {
+        events,
+        summary,
+      },
+      "Dashboard data fetched successfully"
+    )
   );
 });

@@ -1,4 +1,5 @@
 import { DataTypes } from "sequelize";
+import WeddingMember from "./WeddingMember.js";
 import sequelize from "../config/db.js";
 
 const User = sequelize.define(

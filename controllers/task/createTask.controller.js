@@ -7,7 +7,7 @@ import Event from "../../models/Event.js";
 export const createTask = asyncHandler(async (req, res) => {
   const { title, description, eventId, assignedTo, deadline } = req.body;
 
-  if (!title || !eventId || !assignedTo) {
+  if (!title?.trim() || !eventId || !assignedTo) {
     throw new ApiError(400, "Title, Event and Assigned User are required");
   }
 
@@ -18,11 +18,11 @@ export const createTask = asyncHandler(async (req, res) => {
   if (!user) throw new ApiError(404, "Assigned user not found");
 
   const task = await Task.create({
-    title,
-    description,
+    title: title.trim(),
+    description: description || null,
     eventId,
     assignedTo,
-    deadline,
+    deadline: deadline || null, // ✅ safe
     status: "pending",
   });
 
@@ -77,5 +77,19 @@ export const getTasksByEvent = asyncHandler(async (req, res) => {
 
   return res.json(
     new ApiResponse(200, tasks, "Tasks fetched")
+  );
+});
+
+export const getTaskById = asyncHandler(async (req, res) => {
+  const { taskId } = req.params;
+
+  const task = await Task.findByPk(taskId);
+
+  if (!task) {
+    throw new ApiError(404, "Task not found");
+  }
+
+  return res.json(
+    new ApiResponse(200, task, "Task fetched")
   );
 });

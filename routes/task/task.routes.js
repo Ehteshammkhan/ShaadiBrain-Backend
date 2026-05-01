@@ -6,6 +6,8 @@ import {
   updateTaskStatus,
   deleteTask,
   getMyTasks,
+  getTasksByEvent,
+  getTaskById
 } from "../../controllers/task/index.js";
 
 const router = express.Router();
@@ -14,6 +16,8 @@ router.post("/create", verifyJWT, createTask);
 router.put("/update/:taskId", verifyJWT, updateTask);
 router.patch("/status/:taskId", verifyJWT, updateTaskStatus);
 router.delete("/delete/:taskId", verifyJWT, deleteTask);
+router.get("/event/:eventId", verifyJWT, getTasksByEvent);
 router.get("/my", verifyJWT, getMyTasks);
+router.get("/:taskId", verifyJWT, getTaskById);
 
 export default router;

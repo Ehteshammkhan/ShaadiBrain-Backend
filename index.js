@@ -9,6 +9,9 @@ import eventRoutes from "./routes/events/event.routes.js";
 import taskRoutes from "./routes/task/task.routes.js";
 import dashboardRoutes from "./routes/dashboard/dashboard.routes.js";
 import expenseRoutes from "./routes/expense/expense.routes.js";
+import weddingRoutes from "./routes/weddingRoute/wedding.routes.js";
+import memberRoutes from "./routes/members/members.route.js";
+import userRoutes from "./routes/user/user.routes.js";
 
 import verifyJWT from "./middleware/auth.middleware.js";
 import ApiError from "./utils/ApiError.js";
@@ -35,9 +38,12 @@ app.use(express.json({ limit: "10mb" }));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
+app.use("/api/wedding", weddingRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/members", memberRoutes);
+app.use("/api/users", userRoutes);
 
 // Health check
 app.get("/health", (req, res) => {

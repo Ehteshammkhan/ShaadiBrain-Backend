@@ -3,7 +3,7 @@ import Event from "../../models/Event.js";
 import Wedding from "../../models/Wedding.js";
 
 export const createEvent = asyncHandler(async (req, res) => {
-  const { name, budget, weddingId } = req.body;
+  const { name, budget, weddingId, date, venue, description, type } = req.body;
 
   if (!name || !weddingId) {
     throw new ApiError(400, "Name and Wedding ID are required");
@@ -13,13 +13,11 @@ export const createEvent = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Event name cannot be empty");
   }
 
-  if (budget && (isNaN(budget) || budget < 0)) {
-    throw new ApiError(400, "Invalid budget amount");
-  }
-
-  // 🔐 Ownership check
   const wedding = await Wedding.findOne({
-    where: { id: weddingId, userId: req.user.id },
+    where: {
+      id: weddingId,
+      createdBy: req.user.id,
+    },
   });
 
   if (!wedding) {
@@ -30,6 +28,10 @@ export const createEvent = asyncHandler(async (req, res) => {
     name,
     budget: budget || 0,
     weddingId,
+    date: date || null,
+    venue: venue || null,
+    description: description || null,
+    type: type || null,
   });
 
   return res.status(201).json(

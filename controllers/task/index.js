@@ -2,7 +2,8 @@ export {
   createTask,
   updateTaskStatus,
   getMyTasks,
-  getTasksByEvent
+  getTasksByEvent,
+  getTaskById
 } from "./createTask.controller.js";
 
 export { updateTask } from "./updateTask.controller.js";

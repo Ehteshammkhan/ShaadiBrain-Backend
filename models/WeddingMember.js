@@ -5,9 +5,21 @@ const WeddingMember = sequelize.define(
   "WeddingMember",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    userId: DataTypes.INTEGER,
-    weddingId: DataTypes.INTEGER,
-    role: DataTypes.ENUM("admin", "member"),
+
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
+    weddingId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
+    role: {
+      type: DataTypes.ENUM("admin", "member"),
+      defaultValue: "member",
+    },
   },
   {
     tableName: "WeddingMembers",

@@ -3,16 +3,17 @@ import Wedding from "../../models/Wedding.js";
 import WeddingMember from "../../models/WeddingMember.js";
 
 export const createWedding = asyncHandler(async (req, res) => {
-  const { title, date } = req.body;
+  const { title, date, totalBudget } = req.body;
 
   if (!title) {
     throw new ApiError(400, "Wedding title is required");
   }
 
-  // 🔥 Create wedding
+  // 🔥 Create wedding (FIXED)
   const wedding = await Wedding.create({
     title,
     date,
+    totalBudget: totalBudget || 0, // ✅ ADD THIS
     createdBy: req.user.id,
   });
 
